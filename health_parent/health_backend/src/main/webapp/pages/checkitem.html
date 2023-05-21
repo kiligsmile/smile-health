@@ -290,7 +290,8 @@
                 findPage() {
                     // 发送Ajax请求，提交分页相关参数
                     var param={
-                        currentPage:this.pagination.currentPage,
+                        // currentPage:this.pagination.currentPage,
+                        currentPage:(this.pagination.queryString==null||this.pagination.queryString=="")?this.pagination.currentPage:this.pagination.currentPage=1,
                         pageSize: this.pagination.pageSize,
                         queryString: this.pagination.queryString
                     };

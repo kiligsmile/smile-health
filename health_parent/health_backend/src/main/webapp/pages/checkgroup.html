@@ -282,6 +282,21 @@
             methods: {
                 //编辑
                 handleEdit() {
+                    // 发送Ajax请求，将修改后的表单数据（检查组基本信息、勾选的检查项）提交到后台进行处理
+                    axios.post("/checkgroup/edit.do?checkitemIds="+this.checkitemIds,this.formData).then((res)=>{
+                        if(res.data.flag){
+                            this.$message({
+                                type:"success",
+                                message:res.data.message
+                            });
+                        }else{
+                            this.$message.error(res.data.message);
+                        }
+                    }).finally(()=>{
+                        // 无论成功与否，都调用分页查询
+                        this.findPage();
+                        this.dialogFormVisible4Edit=false;
+                    });
                 },
                 //添加
                 handleAdd () {
@@ -289,8 +304,7 @@
                     axios.post(
                         "/checkgroup/add.do?checkitemIds=" + this.checkitemIds,
                         this.formData
-                    )
-                        .then((res)=> {
+                    ).then((res)=> {
                             //关闭新增窗口
                             this.dialogFormVisible = false;
                             if(res.data.flag){
@@ -312,7 +326,8 @@
                 findPage() {
                     // 发送Ajax请求，提交分页相关参数
                     var param={
-                        currentPage:this.pagination.currentPage,
+                        // currentPage:this.pagination.currentPage,
+                        currentPage:(this.pagination.queryString==null||this.pagination.queryString=="")?this.pagination.currentPage:this.pagination.currentPage=1,
                         pageSize: this.pagination.pageSize,
                         queryString: this.pagination.queryString
                     };
@@ -340,10 +355,37 @@
                             this.$message.error(res.data.message);
                         }
                     })
-
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+                    this.dialogFormVisible4Edit=true;
+                    this.activeName='first';
+                    axios.get("/checkgroup/findById.do?id="+row.id).then((res)=>{
+                        if(res.data.flag){
+                            this.formData=res.data.data;
+                        }else {
+                            this.$message.error(res.data.message);
+                        }
+                    });
+
+                    // 查询所有检查项数据，用于展示检查项列表
+                    axios.get("/checkitem/findAll.do").then((res)=>{
+                        if(res.data.flag){
+                            this.tableData=res.data.data;
+                            // 发送Ajax请求，根据检查组ID查询当前检查组包含的检查项ID，用于页面复选框回显
+                            axios.get("/checkgroup/findCheckItemIdsByCheckGroupId.do?id="+row.id).then((res)=>{
+                                if(res.data.flag){
+                                    this.checkitemIds=res.data.data;
+                                }else {
+                                    this.$message.error(res.data.message);
+                                }
+                            });
+                        }else{
+                            this.$message.error(res.data.message);
+                        }
+                    });
+
+
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
@@ -352,6 +394,27 @@
                 },
                 // 删除
                 handleDelete(row) {
+                    // alert(row.id);
+                    this.$confirm("你确定删除当前数据?","提示",{
+                        type: "warning"
+                    }).then(()=>{
+                        axios.get("/checkgroup/delete.do?id="+row.id).then((res)=>{
+                            if(res.data.flag){ // 执行成功
+                                this.$message({
+                                    type:"success",
+                                    message:res.data.message
+                                });
+                                this.findPage();
+                            }else{
+                                this.$message.error(res.data.message);
+                            }
+                        });
+                    }).catch(()=>{
+                        this.$message({
+                            type:"info",
+                            message:"操作已取消"
+                        });
+                    })
                 }
             }
         })
