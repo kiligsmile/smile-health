@@ -27,14 +27,7 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         //添加检查组合，同时需要设置检查组合和检查项的关联关系
         checkGroupDao.add(checkGroup);
         Integer checkGroupId = checkGroup.getId();
-        if(checkitemIds!=null&&checkitemIds.length>0){
-            for (Integer checkitemId : checkitemIds) {
-                Map<String,Integer> map=new HashMap<>();
-                map.put("checkgroup_id",checkGroupId);
-                map.put("checkitem_id",checkitemId);
-                checkGroupDao.setCheckGroupAndCheckItem(map);
-            }
-        }
+        this.setCheckGroupAndCheckItem(checkGroupId,checkitemIds);
     }
 
     @Override
@@ -48,5 +41,52 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         long total = page.getTotal();
         List<CheckGroup> rows = page.getResult();
         return new PageResult(total,rows);
+    }
+
+    @Override
+    public void edit(CheckGroup checkGroup,Integer[] checkitemIds) {
+//        修改检查组基本信息
+        checkGroupDao.edit(checkGroup);
+//        清理当前检查组关联的检查项，操作中间关系表
+        checkGroupDao.deleteAssociation(checkGroup.getId());
+
+//        重新建立关联关系
+        Integer checkGroupId = checkGroup.getId();
+        this.setCheckGroupAndCheckItem(checkGroupId,checkitemIds);
+
+    }
+
+//    建立检查组和检查项多对多关系
+    public void setCheckGroupAndCheckItem(Integer checkGroupId,Integer[] checkitemIds){
+        if(checkitemIds!=null&&checkitemIds.length>0){
+            for (Integer checkitemId : checkitemIds) {
+                Map<String,Integer> map=new HashMap<>();
+                map.put("checkgroup_id",checkGroupId);
+                map.put("checkitem_id",checkitemId);
+                checkGroupDao.setCheckGroupAndCheckItem(map);
+            }
+        }
+    }
+
+    @Override
+    public CheckGroup findById(Integer id) {
+        return checkGroupDao.findById(id);
+    }
+
+    @Override
+    public List<CheckGroup> findAll() {
+        return checkGroupDao.findAll();
+    }
+
+    @Override
+    public List<Integer> findCheckItemIdsByCheckGroupId(Integer id) {
+        return checkGroupDao.findCheckItemIdsByCheckGroupId(id);
+    }
+
+    //    根据id删除检查项
+    @Override
+    public void deleteById(Integer id) {
+        checkGroupDao.deleteAssociation(id);
+        checkGroupDao.deleteById(id);
     }
 }

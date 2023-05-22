@@ -3,12 +3,14 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/health_parent/health_backend" />
+    <file type="web" url="file://$PROJECT_DIR$/health_parent/health_jobs" />
     <file type="web" url="file://$PROJECT_DIR$/health_parent/health_service_provide" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/health_parent/pom.xml" />
+        <option value="$PROJECT_DIR$/quartzdemo/pom.xml" />
       </list>
     </option>
   </component>
