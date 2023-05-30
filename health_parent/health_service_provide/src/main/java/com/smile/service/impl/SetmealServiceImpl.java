@@ -63,4 +63,8 @@ public class SetmealServiceImpl implements SetmealService{
         List<CheckGroup> rows = page.getResult();
         return new PageResult(total,rows);
     }
+
+    public List<Setmeal> findAll() {
+        return setmealDao.findAll();
+    }
 }

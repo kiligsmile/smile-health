@@ -26,4 +26,8 @@
             where code = #{value} or name like concat('%',#{value},'%') or helpCode like concat('%',#{value},'%')
         </if>
     </select>
+
+    <select id="findAll" resultType="com.smile.pojo.Setmeal">
+        select * from t_setmeal
+    </select>
 </mapper>
