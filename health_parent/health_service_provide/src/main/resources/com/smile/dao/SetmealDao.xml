@@ -30,4 +30,32 @@
     <select id="findAll" resultType="com.smile.pojo.Setmeal">
         select * from t_setmeal
     </select>
+
+    <resultMap type="com.smile.pojo.Setmeal" id="baseResultMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="price" property="price"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+        <result column="img" property="img"/>
+    </resultMap>
+    <resultMap type="com.smile.pojo.Setmeal"
+               id="findByIdResultMap"
+               extends="baseResultMap">
+        <collection property="checkGroups"
+                    javaType="ArrayList"
+                    ofType="com.smile.pojo.CheckGroup"
+                    column="id"
+                    select="com.smile.dao.CheckGroupDao.findCheckGroupById">
+        </collection>
+    </resultMap>
+    <select id="findById" resultMap="findByIdResultMap">
+        select * from t_setmeal  where id=#{id}
+    </select>
+
+
 </mapper>
