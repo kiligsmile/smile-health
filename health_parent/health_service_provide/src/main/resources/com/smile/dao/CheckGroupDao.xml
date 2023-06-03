@@ -2,6 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.smile.dao.CheckGroupDao">
+    <resultMap type="com.smile.pojo.CheckGroup" id="baseResultMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+    </resultMap>
+    <resultMap type="com.smile.pojo.CheckGroup"
+               id="findByIdResultMap"
+               extends="baseResultMap">
+        <collection property="checkItems"
+                    javaType="ArrayList"
+                    ofType="com.smile.pojo.CheckItem"
+                    column="id"
+                    select="com.smile.dao.CheckItemDao.findCheckItemById">
+        </collection>
+    </resultMap>
     <!--新增-->
     <insert id="add" parameterType="com.smile.pojo.CheckGroup">
         <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
@@ -72,25 +91,7 @@
         delete from t_checkgroup where id=#{id}
     </delete>
 
-    <resultMap type="com.smile.pojo.CheckGroup" id="baseResultMap">
-        <id column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="code" property="code"/>
-        <result column="helpCode" property="helpCode"/>
-        <result column="sex" property="sex"/>
-        <result column="remark" property="remark"/>
-        <result column="attention" property="attention"/>
-    </resultMap>
-    <resultMap type="com.smile.pojo.CheckGroup"
-               id="findByIdResultMap"
-               extends="baseResultMap">
-        <collection property="checkItems"
-                    javaType="ArrayList"
-                    ofType="com.smile.pojo.CheckItem"
-                    column="id"
-                    select="com.smile.dao.CheckItemDao.findCheckItemById">
-        </collection>
-    </resultMap>
+
     <!--根据套餐id查询检查项信息-->
     <select id="findCheckGroupById" resultMap="findByIdResultMap">
         select * from t_checkgroup

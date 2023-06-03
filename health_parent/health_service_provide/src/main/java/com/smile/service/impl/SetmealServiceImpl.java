@@ -13,10 +13,16 @@ import com.smile.pojo.CheckItem;
 import com.smile.pojo.Setmeal;
 import com.smile.service.CheckItemService;
 import com.smile.service.SetmealService;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import redis.clients.jedis.JedisPool;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +36,11 @@ public class SetmealServiceImpl implements SetmealService{
     private SetmealDao setmealDao;
     @Autowired
     private JedisPool jedisPool;
+    @Autowired
+    private FreeMarkerConfigurer freeMarkerConfigurer;
+    @Value("${out_put_path}")
+    private String outPutPath;  // 从属性文件中读取要生成的HTML对应的目录
+
     @Override
     public void add(Setmeal setmeal, Integer[] checkgroupIds){
         setmealDao.add(setmeal);
@@ -38,6 +49,34 @@ public class SetmealServiceImpl implements SetmealService{
 //        将图片名称保存到Redis集合中
         String fileName = setmeal.getImg();
         jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES,fileName);
+
+//        当添加套餐后需要重新生成静态页面（套餐列表页面、套餐详情页面（可能会有多个））
+
+
+    }
+    // 用于生成静态页面
+    public void generateHtml(String templateName,String htmlPageName,Map<String, Object> dataMap){
+        Configuration configuration = freeMarkerConfigurer.getConfiguration();
+        Writer out = null;
+        try {
+            // 加载模版文件
+            Template template = configuration.getTemplate(templateName);
+            // 生成数据
+            File docFile = new File(outputpath + "\\" + htmlPageName);
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(docFile)));
+            // 输出文件
+            template.process(dataMap, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != out) {
+                    out.flush();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
     }
     //    建立套餐和检查组多对多关系
     public void setSetmealAndCheckGroup(Integer setmealId,Integer[] checkgroupIds){
