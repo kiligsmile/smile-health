@@ -51,9 +51,38 @@ public class SetmealServiceImpl implements SetmealService{
         jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES,fileName);
 
 //        当添加套餐后需要重新生成静态页面（套餐列表页面、套餐详情页面（可能会有多个））
-
+        //新增套餐后需要重新生成静态页面
+        generateMobileStaticHtml();
 
     }
+    //生成静态页面
+    public void generateMobileStaticHtml() {
+        //准备模板文件中所需的数据
+        List<Setmeal> setmealList = this.findAll();
+        //生成套餐列表静态页面
+        generateMobileSetmealListHtml(setmealList);
+        //生成套餐详情静态页面（多个）
+        generateMobileSetmealDetailHtml(setmealList);
+    }
+
+    //生成套餐列表静态页面
+    public void generateMobileSetmealListHtml(List<Setmeal> setmealList) {
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("setmealList", setmealList);
+        this.generateHtml("mobile_setmeal.ftl","m_setmeal.html",dataMap);
+    }
+
+    //生成套餐详情静态页面（多个）
+    public void generateMobileSetmealDetailHtml(List<Setmeal> setmealList) {
+        for (Setmeal setmeal : setmealList) {
+            Map<String, Object> dataMap = new HashMap<String, Object>();
+            dataMap.put("setmeal", this.findById(setmeal.getId()));
+            generateHtml("mobile_setmeal_detail.ftl",
+                    "setmeal_detail_"+setmeal.getId()+".html",
+                    dataMap);
+        }
+    }
+
     // 用于生成静态页面
     public void generateHtml(String templateName,String htmlPageName,Map<String, Object> dataMap){
         Configuration configuration = freeMarkerConfigurer.getConfiguration();
@@ -62,7 +91,7 @@ public class SetmealServiceImpl implements SetmealService{
             // 加载模版文件
             Template template = configuration.getTemplate(templateName);
             // 生成数据
-            File docFile = new File(outputpath + "\\" + htmlPageName);
+            File docFile = new File(outPutPath + "/" + htmlPageName);
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(docFile)));
             // 输出文件
             template.process(dataMap, out);

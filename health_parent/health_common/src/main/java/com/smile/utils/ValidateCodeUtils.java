@@ -1,5 +1,9 @@
 package com.smile.utils;
 
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.util.Random;
 
 /**
@@ -8,36 +12,22 @@ import java.util.Random;
 public class ValidateCodeUtils {
     /**
      * 随机生成验证码
-     * @param length 长度为4位或者6位
-     * @return
      */
-    public static Integer generateValidateCode(int length){
-        Integer code =null;
-        if(length == 4){
-            code = new Random().nextInt(9999);//生成随机数，最大为9999
-            if(code < 1000){
-                code = code + 1000;//保证随机数为4位数字
-            }
-        }else if(length == 6){
-            code = new Random().nextInt(999999);//生成随机数，最大为999999
-            if(code < 100000){
-                code = code + 100000;//保证随机数为6位数字
-            }
-        }else{
-            throw new RuntimeException("只能生成4位或6位数字验证码");
-        }
-        return code;
-    }
+    public static MimeMessage createSimpleMail(Session session, String receiveMail, String code) throws Exception {
+        //  获取6位随机验证码（英文）
+        String verifyCode=code;
+        // 创建邮件对象
+        MimeMessage message = new MimeMessage(session);
+        // 指明邮件的发件人
+        message.setFrom(new InternetAddress("1636625079@qq.com"));
+        // 指明邮件的收件人，现在发件人和收件人是一样的，那就是自己给自己发
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(receiveMail));
+        // 邮件的标题
+        message.setSubject("验证码");
+        // 邮件的文本内容
+        message.setContent("您的验证码：" + verifyCode + "，如非本人操作，请忽略！请勿回复此邮箱", "text/html;charset=UTF-8");
 
-    /**
-     * 随机生成指定长度字符串验证码
-     * @param length 长度
-     * @return
-     */
-    public static String generateValidateCode4String(int length){
-        Random rdm = new Random();
-        String hash1 = Integer.toHexString(rdm.nextInt());
-        String capstr = hash1.substring(0, length);
-        return capstr;
+        // 返回创建好的邮件对象
+        return message;
     }
 }
