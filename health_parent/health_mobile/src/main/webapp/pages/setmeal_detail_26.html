@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no,minimal-ui">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../img/asset-favico.ico">
+    <title>预约详情</title>
+    <link rel="stylesheet" href="../css/page-health-orderDetail.css" />
+    <script src="../plugins/vue/vue.js"></script>
+    <script src="../plugins/vue/axios-0.18.0.js"></script>
+    <script src="../plugins/healthmobile.js"></script>
+</head>
+<body data-spy="scroll" data-target="#myNavbar" data-offset="150">
+<div id="app" class="app">
+    <!-- 页面头部 -->
+    <div class="top-header">
+        <span class="f-left"><i class="icon-back" onclick="history.go(-1)"></i></span>
+        <span class="center">传智健康</span>
+        <span class="f-right"><i class="icon-more"></i></span>
+    </div>
+    <!-- 页面内容 -->
+    <div class="contentBox">
+        <div class="card">
+            <div class="project-img">
+                <img src="http://rv02zdl5z.hn-bkt.clouddn.com/30038619-473b-4c5e-9e65-e349f229ca542.jpg"
+                     width="100%" height="100%" />
+            </div>
+            <div class="project-text">
+                <h4 class="tit">孕前检查</h4>
+                <p class="subtit">FreeMarker template error (DEBUG mode; use RETHROW in production!):
+The following has evaluated to null or missing:
+==> setmeal.remark  [in template "mobile_setmeal_detail.ftl" at line 34, column 37]
+
+----
+Tip: It's the step after the last dot that caused this error, not those before it.
+----
+Tip: If the failing expression is known to be legally refer to something that's sometimes null or missing, either specify a default value like myOptionalVar!myDefault, or use <#if myOptionalVar??>when-present<#else>when-missing</#if>. (These only cover the last step of the expression; to cover the whole expression, use parenthesis: (myOptionalVar.foo)!myDefault, (myOptionalVar.foo)??
+----
+
+----
+FTL stack trace ("~" means nesting-related):
+	- Failed at: ${setmeal.remark}  [in template "mobile_setmeal_detail.ftl" at line 34, column 35]
+----
+
+Java stack trace (for programmers):
+----
+freemarker.core.InvalidReferenceException: [... Exception message was already printed; see it above ...]
+	at freemarker.core.InvalidReferenceException.getInstance(InvalidReferenceException.java:131)
+	at freemarker.core.EvalUtil.coerceModelToString(EvalUtil.java:355)
+	at freemarker.core.Expression.evalAndCoerceToString(Expression.java:82)
+	at freemarker.core.DollarVariable.accept(DollarVariable.java:41)
+	at freemarker.core.Environment.visit(Environment.java:324)
+	at freemarker.core.MixedContent.accept(MixedContent.java:54)
+	at freemarker.core.Environment.visit(Environment.java:324)
+	at freemarker.core.Environment.process(Environment.java:302)
+	at freemarker.template.Template.process(Template.java:325)
+	at com.smile.service.impl.SetmealServiceImpl.generateHtml(SetmealServiceImpl.java:97)
+	at com.smile.service.impl.SetmealServiceImpl.generateMobileSetmealDetailHtml(SetmealServiceImpl.java:80)
+	at com.smile.service.impl.SetmealServiceImpl.generateMobileStaticHtml(SetmealServiceImpl.java:65)
+	at com.smile.service.impl.SetmealServiceImpl.add(SetmealServiceImpl.java:55)
+	at com.smile.service.impl.SetmealServiceImpl$$FastClassBySpringCGLIB$$f34b7ef2.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:747)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:689)
+	at com.smile.service.impl.SetmealServiceImpl$$EnhancerBySpringCGLIB$$12aa45e0.add(<generated>)
+	at com.alibaba.dubbo.common.bytecode.Wrapper3.invokeMethod(Wrapper3.java)
+	at com.alibaba.dubbo.rpc.proxy.javassist.JavassistProxyFactory$1.doInvoke(JavassistProxyFactory.java:45)
+	at com.alibaba.dubbo.rpc.proxy.AbstractProxyInvoker.invoke(AbstractProxyInvoker.java:71)
+	at com.alibaba.dubbo.config.invoker.DelegateProviderMetaDataInvoker.invoke(DelegateProviderMetaDataInvoker.java:48)
+	at com.alibaba.dubbo.rpc.protocol.InvokerWrapper.invoke(InvokerWrapper.java:52)
+	at com.alibaba.dubbo.rpc.filter.ExceptionFilter.invoke(ExceptionFilter.java:61)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:68)
+	at com.alibaba.dubbo.monitor.support.MonitorFilter.invoke(MonitorFilter.java:74)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:68)
+	at com.alibaba.dubbo.rpc.filter.TimeoutFilter.invoke(TimeoutFilter.java:41)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:68)
+	at com.alibaba.dubbo.rpc.protocol.dubbo.filter.TraceFilter.invoke(TraceFilter.java:77)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:68)
+	at com.alibaba.dubbo.rpc.filter.ContextFilter.invoke(ContextFilter.java:71)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:68)
+	at com.alibaba.dubbo.rpc.filter.GenericFilter.invoke(GenericFilter.java:131)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:68)
+	at com.alibaba.dubbo.rpc.filter.ClassLoaderFilter.invoke(ClassLoaderFilter.java:37)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:68)
+	at com.alibaba.dubbo.rpc.filter.EchoFilter.invoke(EchoFilter.java:37)
+	at com.alibaba.dubbo.rpc.protocol.ProtocolFilterWrapper$1.invoke(ProtocolFilterWrapper.java:68)
+	at com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol$1.reply(DubboProtocol.java:98)
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.handleRequest(HeaderExchangeHandler.java:96)
+	at com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.received(HeaderExchangeHandler.java:168)
+	at com.alibaba.dubbo.remoting.transport.DecodeHandler.received(DecodeHandler.java:50)
+	at com.alibaba.dubbo.remoting.transport.dispatcher.ChannelEventRunnable.run(ChannelEventRunnable.java:79)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
