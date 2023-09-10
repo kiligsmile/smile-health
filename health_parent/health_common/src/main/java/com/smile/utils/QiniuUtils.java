@@ -12,9 +12,13 @@ import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 
 public class QiniuUtils {
+//    public  static String accessKey = "gjvC-Qzk5vefrr9GH8WQztyerNm3mas8Igo-DlbP";
+//    public  static String secretKey = "SPx2DOabV6oJsuoItxmA622FvNcSq1uIWCa4CWnc";
+//    public  static String bucket = "smilehealth";
+
     public  static String accessKey = "gjvC-Qzk5vefrr9GH8WQztyerNm3mas8Igo-DlbP";
     public  static String secretKey = "SPx2DOabV6oJsuoItxmA622FvNcSq1uIWCa4CWnc";
-    public  static String bucket = "smilehealth";
+    public  static String bucket = "smilehealth02";
 
     public static void upload2Qiniu(String filePath,String fileName){
         Configuration cfg = new Configuration(Region.region2());
