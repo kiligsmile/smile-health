@@ -19,7 +19,7 @@ public class ValidateCodeUtils {
         // 创建邮件对象
         MimeMessage message = new MimeMessage(session);
         // 指明邮件的发件人
-        message.setFrom(new InternetAddress("kiligsmile@qq.com"));
+        message.setFrom(new InternetAddress("1636625079@qq.com"));
         // 指明邮件的收件人，现在发件人和收件人是一样的，那就是自己给自己发
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(receiveMail));
         // 邮件的标题

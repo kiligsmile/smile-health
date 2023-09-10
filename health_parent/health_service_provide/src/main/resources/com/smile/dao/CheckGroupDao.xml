@@ -45,7 +45,6 @@
         </if>
     </select>
 
-<!--    编辑-->
     <update id="edit" parameterType="com.smile.pojo.CheckGroup">
         update t_checkgroup
         <set>
