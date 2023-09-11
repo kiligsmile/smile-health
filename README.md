@@ -57,3 +57,10 @@
 
 **Redis启动**
 - redis-server /usr/local/etc/redis.conf
+
+**后台系统登录地址**
+- [redis-server /usr/local/etc/redis.conf](http://localhost:82/login.html)http://localhost:82/login.html
+<br/>
+**移动端地址**
+- [redis-server /usr/local/etc/redis.conf](http://localhost/)http://localhost/
+<br/>
